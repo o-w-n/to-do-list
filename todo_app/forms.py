@@ -5,7 +5,7 @@ from .models import ToDoList, ToDoItem
 class ToDoListForm(forms.ModelForm):
     class Meta:
         model = ToDoList
-        exclude = []
+        exclude = ()
 
 
 

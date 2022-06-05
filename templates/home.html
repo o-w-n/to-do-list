@@ -1,17 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
+
+
 <!-- plus list item-->
+<span>
+  <a class="block-create" data-bs-toggle="modal" data-bs-target="#Create">
+    <i class="fas fa-plus"></i>
+  </a>
+</span>
+
+<!-- create list item-->
 <div class="modal fade" id="Create" tabindex="-1" aria-labelledby="CreateLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="POST" action="{% url 'todo_app:create' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-header">
-                    <h5 class="modal-title" id="CreateLabel">Create subscription</h5>
+                    <h5 class="modal-title" id="CreateListItem">Create subscription</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ create_list.as_p }}
+                    {{ create_list_form.as_p }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -22,12 +31,43 @@
     </div>
 </div>
 
+<!-- create list item-->
+<div class="modal fade" id="Add" tabindex="-1" aria-labelledby="CreateLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'todo_app:add' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddItem">Create subscription</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    {{ create_item_form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <ol class="list-group list-group-numbered">
     {% for list in all_todo_list %}
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
             <div class="fw-bold">
+                <!-- plus item-->
+                <span>
+                  <a class="block-create" data-bs-toggle="modal" data-bs-target="#Add">
+                    <i class="fas fa-plus"></i>
+                  </a>
+                </span>
                 <h3>{{ list.title }}</h3>
+
             </div>
             <hr>
             {% for item in list.items.all %}
@@ -41,13 +81,11 @@
         </div>
         <span class="badge bg-primary rounded-pill">{{list.items.count}}</span>
     </li>
-
     {% endfor%}
 </ol>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
 
-</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 
 {% endblock %}

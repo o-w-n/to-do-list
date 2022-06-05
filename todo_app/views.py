@@ -18,7 +18,7 @@ def create_list(request):
     if request.method == "POST":
         form = ToDoListForm(request.POST)
         if form.is_valid():
-            new_form = form.save(commit=False)
+            mew_form = form.save(commit=False)
 
     return redirect("todo_app:home")
 
