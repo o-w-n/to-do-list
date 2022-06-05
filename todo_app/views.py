@@ -10,7 +10,7 @@ def list_view(request):
 
     return render(request, 'home.html', {'all_todo_list': all_todo_list,
                                          'create_list_form': create_list_form,
-                                         'create_item_form': create_item_form
+                                         'create_item_form': create_item_form,
                                          })
 
 
