@@ -27,17 +27,20 @@
 <body>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <a href="{% url 'todo_app:home' %}" class="logo">
-
+         <img src="{% static 'logo.png' %}" alt="My logo" width="50" height="50">
     </a>
+
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="#" class="nav-link px-2 link-secondary">Як це працює</a></li>
         <li><a href="#" class="nav-link px-2 link-secondary">Можливості системи</a></li>
         <li><a href="#" class="nav-link px-2 link-secondary">Чому ми?</a></li>
         <li><a href="#" class="nav-link px-2 link-secondary">Конфіденційність</a></li>
-        <li><a href="#" class="nav-link px-2 link-secondary">Тарифи</a></li>
+        <li><a class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#Create_Item">Add Item <i
+                class="fas fa-plus"></i></a></li>
+
     </ul>
     <div class="col-md-3 text-end login-button">
-        <a type="button" class="btn btn-outline-primary rounded-5 " href="{% url 'admin:login' %}">Увійти</a>
+        <a type="button" class="btn btn-secondary" href="{% url 'admin:login' %}">Увійти</a>
     </div>
 </header>
 

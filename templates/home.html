@@ -1,22 +1,16 @@
 {% extends "base.html" %}
+{% load itemtag %}
 {% block content %}
 
 
-<!-- plus list item-->
-<span>
-  <a class="block-create" data-bs-toggle="modal" data-bs-target="#Create">
-    <i class="fas fa-plus"></i>
-  </a>
-</span>
-
 <!-- create list item-->
-<div class="modal fade" id="Create" tabindex="-1" aria-labelledby="CreateLabel" aria-hidden="true">
+<div class="modal fade" id="Create_Item" tabindex="-1" aria-labelledby="CreateLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="POST" action="{% url 'todo_app:create' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-header">
-                    <h5 class="modal-title" id="CreateListItem">Create subscription</h5>
+                    <h5 class="modal-title" id="CreateListItem">Add List of Items</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -31,11 +25,11 @@
     </div>
 </div>
 
-<!-- create list item-->
-<div class="modal fade" id="Add" tabindex="-1" aria-labelledby="CreateLabel" aria-hidden="true">
+<!-- add item-->
+<div class="modal fade" id="CreateItem" tabindex="-1" aria-labelledby="CreateLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" action="{% url 'todo_app:add' %}" enctype="multipart/form-data">
+            <form method="POST" action="" id="AddItemForm" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title" id="AddItem">Create subscription</h5>
@@ -60,26 +54,28 @@
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
             <div class="fw-bold">
-                <!-- plus item-->
-                <span>
-                  <a class="block-create" data-bs-toggle="modal" data-bs-target="#Add">
-                    <i class="fas fa-plus"></i>
-                  </a>
-                </span>
                 <h3>{{ list.title }}</h3>
-
             </div>
             <hr>
-            {% for item in list.items.all %}
+            {% for item in list.get_items %}
+            <div style="background-color: {% get_color_item item %};">
+                <h5>{{item.title}} </h5>
 
-            <h5>{{item.title}} </h5>
-
-            <i>{{item.description}}</i>
-
+                <i>{{item.description}}</i>
+                <br>
+                <b>{{item.end_date|default:''}}</b>
+                <hr>
+            </div>
             {% endfor %}
-            <hr>
         </div>
-        <span class="badge bg-primary rounded-pill">{{list.items.count}}</span>
+        <div class="row">
+            <span class="badge bg-primary rounded-pill">{{list.items.count}}</span>
+            <span>
+              <a class="block-create" data-bs-toggle="modal" data-bs-target="#CreateItem" data-id="{{list.id}}">
+                <i class="fas fa-plus"></i>
+              </a>
+            </span>
+        </div>
     </li>
     {% endfor%}
 </ol>
@@ -87,6 +83,15 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
+
+<script>
+    $(document).on("click", ".block-create", function () {
+     const subId = $(this).data('id');
+     const action = "{% url 'todo_app:add' pk=12345 %}".replace(/12345/, subId.toString());
+     document.getElementById("AddItemForm").action = action;
+});
+
+</script>
 
 {% endblock %}
 
